@@ -55,3 +55,56 @@ first code
    });
   })();
  </script>
+
+
+<script>
+//キャンセルボタン
+(function(){
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById("cancel").addEventListener('click', function() {
+      var result = confirm("依頼をキャンセルしてもよろしいですか？")
+          if(!result) {
+            //no
+            return false;
+          } else {
+            //yes
+            clearForm(this.form);
+            //clearSetting();
+            return result;
+          }
+    });
+  }); 
+})();    
+//document.querySelector('#hoge').querySelectorAll('.fuga'); // $('#hoge').find('.fuga');
+  function clearForm (form) {
+    for(var i=0; i<form.elements.length; ++i) {
+            clearElement(form.elements[i]);
+        }
+    //form.querySelectorAll('input[type="text"]').value = "";
+    //form.querySelectorAll('textarea').value = "";
+    //form.querySelectorAll('select').selected = false;
+    var settingAria = document.getElementById('setting_area');
+    if(settingAria !== null){
+      document.getElementById('setting').removeChild(document.getElementById('setting_area'));
+    }
+    document.getElementById('count').value = 0;
+    }
+    function clearElement(element) {
+        switch(element.type) {
+            case "hidden": element.value = 0;
+                return;
+            case "text": element.value = "";
+                return;
+            case "textarea": element.value = "";
+                return;
+            case "date": element.value = "";
+                return;
+            case "select-one": element.value = "";
+                  carrierChange(element.value)
+                return;
+            case "email": element.value = "";
+                return;
+            default:
+        }
+    }
+</script>
