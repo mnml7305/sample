@@ -1,1 +1,57 @@
 first code
+  <script>
+   (function() {
+    document.addEventListener('DOMContentLoaded',function() {
+    document.getElementById('btn').addEventListener('click', function() {
+     // var form = this.form;
+     // form.reportValidity();
+       // zip.addEventListener('invalid', function() {
+      //var valid = zip.reportValidity();
+
+     /**/ 
+     const zip = document.getElementById('zip_code');
+      var zipcode = zip.value;
+     setTimeout(function(){
+        zip.reportValidity();
+      }, 100);
+      // zip.checkValidity();
+      zip.addEventListener('invalid', function() {
+         if(!zip.value.match(/\d{3}-\d{4}/g)) {
+            document.getElementById('address1').value = "";
+         }
+       });
+      if(!zip.validity.valid){
+       return false;
+      };
+      
+   /* if (!zip.value) {
+          zip.setCustomValidity('郵便番号が入力されていません');
+          return;
+        //} else if(!this.value.match(/^\d{3}-?\d{4}$/g)) {
+        //  this.setCustomValidity('郵便番号の形式が異なります');
+        } else {
+          // input is valid -- reset the error message
+          zip.setCustomValidity('');
+        }*/
+      var ajax = new XMLHttpRequest();
+      ajax.onreadystatechange = function () {
+        if(ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
+          var data = ajax.response;
+            if(data.results){
+              var address = data.results[0];
+                document.getElementById('address1').value = address.address1 + address.address2 + address.address3;
+            }else{
+              alert('該当データが見つかりません');
+              document.getElementById('address1').value = "";
+            }
+        }
+    };
+    var url = 'http://zipcloud.ibsnet.co.jp/api/search?zipcode=' + zipcode;
+    ajax.responseType = 'json';
+    ajax.open('GET', url, true);
+    ajax.send(null);
+  //}, false);
+  }, false);
+   });
+  })();
+ </script>
